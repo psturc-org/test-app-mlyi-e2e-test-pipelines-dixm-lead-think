@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app.kubernetes.io/created-by: application-service
+    app.kubernetes.io/instance: test-component--ajzv
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: test-component--ajzv
+    app.kubernetes.io/part-of: test-app-mlyi
+  name: test-component--ajzv
+  namespace: e2e-test-pipelines-dixm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: test-component--ajzv
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/instance: test-component--ajzv
+    spec:
+      containers:
+      - image: quay.io/psturc/test-images:5cd16d992576418594b488c00d099f1d
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8081
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        name: container-image
+        ports:
+        - containerPort: 8081
+        readinessProbe:
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          tcpSocket:
+            port: 8081
+        resources: {}
+status: {}
